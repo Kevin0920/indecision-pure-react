@@ -1,87 +1,38 @@
 'use strict';
 
-console.log('App.js is running!');
+var visibility = false;
 
-var app = {
-    title: 'Indecision App',
-    subtitle: 'Put your life in the hands of a computer',
-    options: []
-};
-
-var onFormSubmit = function onFormSubmit(e) {
-    e.preventDefault();
-    var option = e.target.elements.option.value;
-
-    if (option) {
-        app.options.push(option);
-        e.target.elements.option.value = '';
-        render();
-    }
-};
-
-var removeAll = function removeAll() {
-    app.options = [];
+var toggleVis = function toggleVis() {
+    visibility = !visibility;
     render();
 };
 
-var appRoot = document.getElementById('app');
-
 var render = function render() {
-    var template = React.createElement(
-        'div',
+    var jsx = React.createElement(
+        'di',
         null,
         React.createElement(
             'h1',
             null,
-            app.title
-        ),
-        app.subtitle && React.createElement(
-            'h3',
-            null,
-            app.subtitle
-        ),
-        React.createElement(
-            'p',
-            null,
-            app.options.length > 0 ? 'Here are your options' : 'No options'
-        ),
-        React.createElement(
-            'p',
-            null,
-            app.options.length
-        ),
-        React.createElement(
-            'ol',
-            null,
-            React.createElement(
-                'li',
-                null,
-                'Item One'
-            ),
-            React.createElement(
-                'li',
-                null,
-                'Item Two'
-            )
+            'Visibility Toggle Button'
         ),
         React.createElement(
             'button',
-            { onClick: removeAll },
-            'Remove All'
+            { onClick: toggleVis },
+            visibility ? 'Hide details' : 'Show details'
         ),
-        React.createElement(
-            'form',
-            { onSubmit: onFormSubmit },
-            React.createElement('input', { type: 'text', name: 'option' }),
+        visibility && React.createElement(
+            'div',
+            null,
             React.createElement(
-                'button',
+                'h3',
                 null,
-                'Add Option'
+                'Hey, here are some details showing here!'
             )
         )
     );
 
-    ReactDOM.render(template, appRoot);
+    ReactDOM.render(jsx, document.getElementById('app'));
 };
 
 render();
